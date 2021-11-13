@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "variables-neutral.css",
+	"sources": [
+		"variables-neutral.scss"
+	],
+	"mappings": "",
+	"names": []
+}

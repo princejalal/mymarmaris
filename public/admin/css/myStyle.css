@@ -1,0 +1,58 @@
+﻿.gridListe {
+    margin: 0;
+    padding: 0;
+}
+.gridListe li {
+    list-style: none;
+    text-align: center;
+}
+    .gridListe li label {
+        border-bottom: 1px solid orange;
+        font-size: 13px;
+    }
+.carImage {
+    max-width: 200px;
+    width: auto;
+}
+.table > tbody > tr > td {
+    text-align: center;
+    vertical-align: middle;
+   
+}
+.table > tbody > tr > th {
+    text-align: center;
+    vertical-align: middle;
+  
+}
+#map {
+    height: 250px;
+    width: auto;
+}
+
+@media (max-width: 768px)
+{
+.customtab li a
+    {
+    
+        margin: 0;
+        padding: 0;
+        margin-right:7px;
+    }
+}
+
+.dol
+{
+    background-color:#e3ffe5;
+}
+.eur
+{
+    background-color: #e8f9ff;
+}
+.lir
+{
+    background-color: #fefff0;
+}
+.tou
+{
+    background-color: #fff8ec;
+}
