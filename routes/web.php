@@ -336,7 +336,7 @@ if (!app()->runningInConsole()):
 
     if (!$userLang):
 
-        $userLang = set_user_lang_by_ip($languages);
+        $userLang = 'en';
 
     endif;
 
@@ -344,7 +344,8 @@ if (!app()->runningInConsole()):
 
 endif;
 
-if (!empty($_GET) && (!array_key_exists('page', $_GET) && !array_key_exists('_token', $_GET)) && !array_key_exists('clean', $_GET)):
+if (!empty($_GET) && (!array_key_exists('page', $_GET) && !array_key_exists('_token',
+            $_GET)) && !array_key_exists('clean', $_GET)):
 
     return abort(404);
 
@@ -380,8 +381,8 @@ Route::group([
     if (!app()->runningInConsole()):
         $pagesKind = \App\Page_info::select('page_info.url', 'pages.kind', 'page_info.page_name',
             'page_info.page_id')->where('lang_id', get_lang_id($langShortName))->where('pages.kind', '!=',
-                'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
-                'page_info.page_id')->get();
+            'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
+            'page_info.page_id')->get();
 
         foreach ($pagesKind as $pagekind):
 

@@ -16,8 +16,6 @@
 <b>  {{ $reserve->message }} </b><br>
 <b style="color: #1F8342"> {{ __('message.YourName') }} : </b>
 <b>  {{ $reserve->name }} </b><br>
-<b style="color: #1F8342"> {{ __('message.YourEmail') }} : </b>
-<b>  {{ $reserve->email }} </b><br>
 <b style="color: #1F8342"> {{ __('message.YourPhone') }} : </b>
 <b> {{  $reserve->phone }} </b><br>
 <b style="color: #1F8342"> {{  __('message.ReservationDate') }} : </b>

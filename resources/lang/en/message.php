@@ -230,8 +230,7 @@ return [
     'tour Price'                 => 'Price',
     'Age Range'                  => 'Age Range',
     'price for excursion'        => 'price list',
-    'Tours 2021'                 => 'Tours In Marmaris 2021',
+    'Tours 2021'                 => 'Tours In Marmaris ' . date('Y'),
     'Blog Title'                 => 'Marmaris city attractions - page',
     'Diff'                       => 'pros of visiting with us'
 ];
-
