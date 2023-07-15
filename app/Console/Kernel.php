@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Mail;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,7 +30,7 @@ class Kernel extends ConsoleKernel
 If you do not receive the email within the specified time, notify the system administrator';
 
             Mail::raw($message, function ($msg) {
-                $msg->to('onlinetours20@gmail.com')->subject('Daily mail for Kemer tours');
+                $msg->to('onlinetours20@gmail.com')->subject('Daily mail for My marmaris tours');
             });
         })->twiceDaily(8,17)->timezone('Asia/Istanbul');
     }
