@@ -24,7 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $message = 'You should receive this email twice a day at 08:00AM and 17:00
+If you do not receive the email within the specified time, notify the system administrator';
+
+            Mail::raw($message, function ($msg) {
+                $msg->to('onlinetours20@gmail.com')->subject('Daily mail for Kemer tours');
+            });
+        })->twiceDaily(8,17)->timezone('Asia/Istanbul');
     }
 
     /**
