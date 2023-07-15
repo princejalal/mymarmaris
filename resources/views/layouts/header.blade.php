@@ -9,7 +9,7 @@
             <meta name="language" content="{{ app()->getLocale() }}"/>
             <link rel="alternate" href="{{ config('app.url') . 'en' }}" hreflang="x-default"/>
             <link rel="alternate" href="{{ \Request::fullUrl() }}" hreflang="{{ app()->getLocale() }}"/>
-            <link rel="canonical" href="{{ \Request::fullUrl() }}"/>
+            <link rel="canonical" href="{{ \Request::url() }}"/>
             <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
             <title>{{ $title }}</title>
             @include('layouts.meta',['title'=>$title,'metaDesc'=>$metaDesc,'metaTags'=>$metaTags])

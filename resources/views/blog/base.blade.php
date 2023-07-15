@@ -5,9 +5,11 @@
 @endsection
 
 @section('blogContent')
-    <div class="m-3">
-        {!! check_property($blogInfo,'content') !!}
-    </div>
+    @if(!request('page'))
+        <div class="m-3">
+            {!! check_property($blogInfo,'content') !!}
+        </div>
+    @endif
     <div class="container">
         <div class="row">
             @foreach($posts as $post)
@@ -37,5 +39,7 @@
             {{ $posts->links() }}
         </div>
     </div>
-    {!! check_property($blogInfo,'description')!!}
+    @if(!request('page'))
+        {!! check_property($blogInfo,'description')!!}
+    @endif
 @endsection
