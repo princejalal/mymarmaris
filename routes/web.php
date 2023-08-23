@@ -356,53 +356,55 @@ Route::group([
     'middleware' => 'checkLng'
 ], function () {
 
-    Route::post('/app/upload', 'HomeController@upload')->name('app.upload');
-
-    Route::get('sitemap.xml', 'HomeController@siteMap');
-
     Auth::routes();
 
-    Route::get('success', 'HomeController@success');
+    Route::group(['middleware'=>'auth'],function (){
+        Route::post('/app/upload', 'HomeController@upload')->name('app.upload');
 
-    Route::get('/', 'HomeController@index')->name('home.index');
+        Route::get('sitemap.xml', 'HomeController@siteMap');
 
-    $langShortName = \Illuminate\Support\Facades\Request::segment(1);
-    if (!app()->runningInConsole()):
-        $pages = \App\Page_info::select('page_info.url', 'page_info.page_name', 'page_info.page_id')->where('page_id',
-            '>', 2)->where('lang_id', get_lang_id($langShortName))->get();
+        Route::get('success', 'HomeController@success');
 
-        foreach ($pages as $page):
+        Route::get('/', 'HomeController@index')->name('home.index');
 
-            Route::get("/".changeUrlStyle($page->url), 'PageController@index')->name('page.show.'.$page->page_id);
+        $langShortName = \Illuminate\Support\Facades\Request::segment(1);
+        if (!app()->runningInConsole()):
+            $pages = \App\Page_info::select('page_info.url', 'page_info.page_name', 'page_info.page_id')->where('page_id',
+                '>', 2)->where('lang_id', get_lang_id($langShortName))->get();
 
-        endforeach;
-    endif;
+            foreach ($pages as $page):
 
-    if (!app()->runningInConsole()):
-        $pagesKind = \App\Page_info::select('page_info.url', 'pages.kind', 'page_info.page_name',
-            'page_info.page_id')->where('lang_id', get_lang_id($langShortName))->where('pages.kind', '!=',
-            'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
-            'page_info.page_id')->get();
+                Route::get("/".changeUrlStyle($page->url), 'PageController@index')->name('page.show.'.$page->page_id);
 
-        foreach ($pagesKind as $pagekind):
+            endforeach;
+        endif;
 
-            Route::get("/".changeUrlStyle($pagekind->url),
-                'HomeController@allTours')->name('page.kind.'.$pagekind->kind);
+        if (!app()->runningInConsole()):
+            $pagesKind = \App\Page_info::select('page_info.url', 'pages.kind', 'page_info.page_name',
+                'page_info.page_id')->where('lang_id', get_lang_id($langShortName))->where('pages.kind', '!=',
+                'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
+                'page_info.page_id')->get();
 
-        endforeach;
-    endif;
+            foreach ($pagesKind as $pagekind):
 
-    Route::get('blog', 'BlogController@index')->name('blog.index');
+                Route::get("/".changeUrlStyle($pagekind->url),
+                    'HomeController@allTours')->name('page.kind.'.$pagekind->kind);
 
-    Route::get('contact', 'HomeController@contant')->name('contact.show');
+            endforeach;
+        endif;
 
-    Route::get('{itemName}', 'ItemController@index')->name('item.show');
+        Route::get('blog', 'BlogController@index')->name('blog.index');
 
-    Route::get('blog/{title}', 'BlogController@show')->name('blog.show');
+        Route::get('contact', 'HomeController@contant')->name('contact.show');
 
-    Route::post('/home/reserve', 'HomeController@reserv')->name('reserve.store');
+        Route::get('{itemName}', 'ItemController@index')->name('item.show');
 
-    Route::Post('/home/post', 'HomeController@post')->name('post.store');
+        Route::get('blog/{title}', 'BlogController@show')->name('blog.show');
+
+        Route::post('/home/reserve', 'HomeController@reserv')->name('reserve.store');
+
+        Route::Post('/home/post', 'HomeController@post')->name('post.store');
+    });
 
 });
 
