@@ -9,6 +9,7 @@ use App\Page_info;
 use App\Pages;
 use App\Site_info;
 use App\Tour;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
@@ -37,6 +38,7 @@ class AppServiceProvider extends ServiceProvider {
     public function boot() {
 
         Schema::defaultStringLength(191);
+        Paginator::useBootstrap();
 
         if (!app()->runningInConsole()):
 
