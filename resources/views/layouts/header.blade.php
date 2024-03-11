@@ -4,13 +4,12 @@
         <html lang="{{ app()->getLocale() }}" dir="ltr">
         @endif
         <head lang="{{ app()->getLocale() }}">
-            <meta name=”robots” content=”noindex”/>
             <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="language" content="{{ app()->getLocale() }}"/>
             <link rel="alternate" href="{{ config('app.url') . 'en' }}" hreflang="x-default"/>
             <link rel="alternate" href="{{ \Request::fullUrl() }}" hreflang="{{ app()->getLocale() }}"/>
-            <link rel="canonical" href="{{ \Request::url() }}"/>
+            <link rel="canonical" href="{{ \Request::fullUrl() }}"/>
             <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
             <title>{{ $title }}</title>
             @include('layouts.meta',['title'=>$title,'metaDesc'=>$metaDesc,'metaTags'=>$metaTags])
@@ -24,7 +23,7 @@
             <link rel="stylesheet" href="{{ asset('style/style.css') }}">
             {!! check_property($siteInfo,'meta_tags') !!}
             @yield('styles')
-            <link rel="preload" href="{{ asset('fontawesome/css/all.min.css') }}" as="style" onload="this.rel='stylesheet'">
+            <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
         </head>
         <body>
         <div class="webtop">
@@ -40,7 +39,7 @@
                         @endforeach
                     </div>
                     <div class="d-lg-none d-sm-flex p-2 border-left">
-                        <a href="tel:{{ check_property($siteInfo,'phone') }}" class="h5"><i class="fas fa-phone"></i>{{ check_property($siteInfo,'phone') }}</a>
+                        <a href="tel:{{ check_property($phones,'contact_value') }}" class="h5"><i class="fas fa-phone"></i>{{ check_property($phones,'contact_value') }}</a>
                     </div>
                 </div>
             </div>
@@ -84,7 +83,7 @@
                             </ul>
                         @endif
                     </div>
-                    <div class="tpon"><a href="tel:{{ check_property($siteInfo,'phone') }}">{{ check_property($siteInfo,'phone') }}</a></div>
+                    <div class="tpon"><a href="tel:{{ check_property($phones,'contact_value') }}">{{ check_property($phones,'contact_value') }}</a></div>
                     <div class="tponsub">(24/7 {{ locale_words('OnlineService') }})</div>
                 </div>
             </div>

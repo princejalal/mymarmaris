@@ -299,6 +299,13 @@ Route::prefix('adminpanel')->middleware('auth')->group(function () {
 
     Route::resource('content', 'adminpanel\MobileContentController');
 
+    /**
+     * Messengers
+     */
+    Route::resource('messenger', 'adminpanel\Messenger\MessengerController')->except('show');
+
+    Route::resource('messenger-type', 'adminpanel\Messenger\MessengerTypeController')->except('show', 'create', 'edit');
+
 });
 
 
@@ -329,27 +336,9 @@ Route::get('/slider/{w}/{h}/{img}/', function ($w, $h, $img) {
 
 
 if (!app()->runningInConsole()):
-    // check user language web site
-    $languages = \App\Language::where('publish', 1)->get();
-
-    $userLang = detect_browser_language();
-
-    if (!$userLang):
-
-        $userLang = 'en';
-
-    endif;
-
-    Route::redirect('/', "/$userLang");
-
+    Route::redirect('/', "/en");
 endif;
 
-if (!empty($_GET) && (!array_key_exists('page', $_GET) && !array_key_exists('_token',
-            $_GET)) && !array_key_exists('clean', $_GET)):
-
-    return abort(404);
-
-endif;
 
 Route::group([
     'prefix'     => '{lng}',
@@ -358,53 +347,51 @@ Route::group([
 
     Auth::routes();
 
-    Route::group(['middleware'=>'auth'],function (){
-        Route::post('/app/upload', 'HomeController@upload')->name('app.upload');
+    Route::post('/app/upload', 'HomeController@upload')->name('app.upload');
 
-        Route::get('sitemap.xml', 'HomeController@siteMap');
+    Route::get('sitemap.xml', 'HomeController@siteMap');
 
-        Route::get('success', 'HomeController@success');
+    Route::get('success', 'HomeController@success');
 
-        Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('/', 'HomeController@index')->name('home.index');
 
-        $langShortName = \Illuminate\Support\Facades\Request::segment(1);
-        if (!app()->runningInConsole()):
-            $pages = \App\Page_info::select('page_info.url', 'page_info.page_name', 'page_info.page_id')->where('page_id',
-                '>', 2)->where('lang_id', get_lang_id($langShortName))->get();
+    $langShortName = \Illuminate\Support\Facades\Request::segment(1);
+    if (!app()->runningInConsole()):
+        $pages = \App\Page_info::select('page_info.url', 'page_info.page_name', 'page_info.page_id')->where('page_id',
+            '>', 2)->where('lang_id', get_lang_id($langShortName))->get();
 
-            foreach ($pages as $page):
+        foreach ($pages as $page):
 
-                Route::get("/".changeUrlStyle($page->url), 'PageController@index')->name('page.show.'.$page->page_id);
+            Route::get("/".changeUrlStyle($page->url), 'PageController@index')->name('page.show.'.$page->page_id);
 
-            endforeach;
-        endif;
+        endforeach;
+    endif;
 
-        if (!app()->runningInConsole()):
-            $pagesKind = \App\Page_info::select('page_info.url', 'pages.kind', 'page_info.page_name',
-                'page_info.page_id')->where('lang_id', get_lang_id($langShortName))->where('pages.kind', '!=',
-                'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
-                'page_info.page_id')->get();
+    if (!app()->runningInConsole()):
+        $pagesKind = \App\Page_info::select('page_info.url', 'pages.kind', 'page_info.page_name',
+            'page_info.page_id')->where('lang_id', get_lang_id($langShortName))->where('pages.kind', '!=',
+            'general')->where('page_info.page_id', '>', 3)->leftJoin('pages', 'pages.page_id', '=',
+            'page_info.page_id')->get();
 
-            foreach ($pagesKind as $pagekind):
+        foreach ($pagesKind as $pagekind):
 
-                Route::get("/".changeUrlStyle($pagekind->url),
-                    'HomeController@allTours')->name('page.kind.'.$pagekind->kind);
+            Route::get("/".changeUrlStyle($pagekind->url),
+                'HomeController@allTours')->name('page.kind.'.$pagekind->kind);
 
-            endforeach;
-        endif;
+        endforeach;
+    endif;
 
-        Route::get('blog', 'BlogController@index')->name('blog.index');
+    Route::get('blog', 'BlogController@index')->name('blog.index');
 
-        Route::get('contact', 'HomeController@contant')->name('contact.show');
+    Route::get('contact', 'HomeController@contant')->name('contact.show');
 
-        Route::get('{itemName}', 'ItemController@index')->name('item.show');
+    Route::get('{itemName}', 'ItemController@index')->name('item.show');
 
-        Route::get('blog/{title}', 'BlogController@show')->name('blog.show');
+    Route::get('blog/{title}', 'BlogController@show')->name('blog.show');
 
-        Route::post('/home/reserve', 'HomeController@reserv')->name('reserve.store');
+    Route::post('/home/reserve', 'HomeController@reserv')->name('reserve.store');
 
-        Route::Post('/home/post', 'HomeController@post')->name('post.store');
-    });
+    Route::Post('/home/post', 'HomeController@post')->name('post.store');
 
 });
 

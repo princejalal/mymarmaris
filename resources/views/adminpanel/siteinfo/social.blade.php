@@ -32,8 +32,12 @@
                                            name="contact_value" class="form-control"
                                            aria-describedby="inputGroup-sizing-sm">
                                 </div>
-                                <button class="btn btn-sm btn-block btn-outline-primary"
-                                        type="submit">{{ locale_words('Edit') }}</button>
+                                <div class="row">
+                                    <button class="col-6 btn btn-outline-primary"
+                                            type="submit">{{ locale_words('Edit') }}</button>
+                                    <button class="col-6 btn btn-outline-danger"
+                                            onclick='deleteItem("{{ __('message.DeleteItem') }}","{{ route('contact.destroy',$social->contact_id) }}","{{ $social->contact_id }}")'>{{ __('message.Delete') }}</button>
+                                </div>
                             </form>
                         </td>
                     @else
