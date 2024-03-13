@@ -12,24 +12,29 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
-class SiteController extends AdminController {
+class SiteController extends AdminController
+{
 
-    public function SiteInfo() {
+    public function SiteInfo()
+    {
 
-        $siteInfo = Site_info::where('id', 1)->first();
+        $siteInfo = Site_info::where('id', 1)
+            ->first();
 
         return view('adminpanel.siteinfo.meta', compact('siteInfo'));
 
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @param $id
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
 
         try {
-            Site_info::where('id', $id)->update($request->except('_method', '_token'));
+            Site_info::where('id', $id)
+                ->update($request->except('_method', '_token'));
             Session::flash('message', error_layout('Site info update successfuly!'));
             return redirect('/adminpanel/metas');
         } catch (Exception $e) {
@@ -46,10 +51,14 @@ class SiteController extends AdminController {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function contact() {
+    public function contact()
+    {
 
-        $contacts = Contact_info::select('contact_info.*', 'language.lang_short_name')->where('kind', '!=',
-                'socialMedia')->leftJoin('language', 'language.lang_id', '=', 'contact_info.lang_id')->paginate(15);
+        $contacts = Contact_info::select('contact_info.*', 'language.lang_short_name')
+            ->where('kind', '!=',
+                'socialMedia')
+            ->leftJoin('language', 'language.lang_id', '=', 'contact_info.lang_id')
+            ->paginate(15);
 
 
         return view('adminpanel.siteinfo.contact', compact('contacts'));
@@ -59,14 +68,16 @@ class SiteController extends AdminController {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function createContact() {
+    public function createContact()
+    {
 
         $contactInfo = new \stdClass();
 
         $kind = [
-            'Phone'   => 'Phone',
-            'email'   => 'email',
-            'address' => 'address'
+            'Phone'     => 'Phone',
+            'email'     => 'email',
+            'address'   => 'address',
+            'guestbook' => 'guestbook'
         ];
 
         $langs = [];
@@ -84,7 +95,8 @@ class SiteController extends AdminController {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function socialMedia() {
+    public function socialMedia()
+    {
 
         $socialMedia = [
             [
@@ -104,32 +116,26 @@ class SiteController extends AdminController {
                 'icon' => 'fab fa-instagram'
             ],
             [
-                'name' => 'ok',
-                'icon' => 'fab fa-odnoklassniki-square'
-            ],
-            [
                 'name' => 'vk',
                 'icon' => 'fab fa-vk'
             ],
             [
-                'name' => 'telegram',
-                'icon' => 'fab fa-telegram-plane'
-            ],
-            [
-                'name' => 'whatsapp',
-                'icon' => 'fab  fa-whatsapp'
+                'name' => 'tiktok',
+                'icon' => 'fab  fa-tiktok'
             ]
         ];
 
-        $language = Language::where('publish', 1)->get();
+        $language = Language::where('publish', 1)
+            ->get();
 
         return view('adminpanel.siteinfo.social', compact('socialMedia', 'language'));
     }
 
     /*****
-     * @param  Request  $request
+     * @param Request $request
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         Validator::make($request->all(), [
             'name'          => [
@@ -140,7 +146,8 @@ class SiteController extends AdminController {
                 'required',
                 'max:300'
             ]
-        ])->validate();
+        ])
+            ->validate();
 
         try {
 
@@ -167,15 +174,18 @@ class SiteController extends AdminController {
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
-        $contactInfo = Contact_info::where('contact_id', $id)->first();
+        $contactInfo = Contact_info::where('contact_id', $id)
+            ->first();
 
 
         $kind = [
-            'Phone'   => 'Phone',
-            'email'   => 'email',
-            'address' => 'address'
+            'Phone'     => 'Phone',
+            'email'     => 'email',
+            'address'   => 'address',
+            'guestbook' => 'guestbook'
         ];
 
         $langs = [];
@@ -190,10 +200,11 @@ class SiteController extends AdminController {
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @param $id
      */
-    public function updateContact(Request $request, $id) {
+    public function updateContact(Request $request, $id)
+    {
         Validator::make($request->all(), [
             'name'          => [
                 'required',
@@ -203,9 +214,11 @@ class SiteController extends AdminController {
                 'required',
                 'max:300'
             ]
-        ])->validate();
+        ])
+            ->validate();
         try {
-            Contact_info::where('contact_id', $id)->update($request->except('_method', '_token'));
+            Contact_info::where('contact_id', $id)
+                ->update($request->except('_method', '_token'));
             Session::flash('message', error_layout('Contact Info update successfuly!'));
             return back();
         } catch (Exception $e) {
@@ -220,7 +233,8 @@ class SiteController extends AdminController {
     /**
      * @param $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $contact = Contact_info::find($id);
 
@@ -232,18 +246,24 @@ class SiteController extends AdminController {
 
     }
 
-    public function location() {
+    public function location()
+    {
 
-        $locationInfo = DB::table('location_table')->where('location_id', 1)->first();
+        $locationInfo = DB::table('location_table')
+            ->where('location_id', 1)
+            ->first();
 
         return view('home.location', compact('locationInfo'));
 
 
     }
 
-    public function editLocation(Request $request) {
+    public function editLocation(Request $request)
+    {
 
-        DB::table('location_table')->where('location_id', 1)->update($request->except('_method', '_token'));
+        DB::table('location_table')
+            ->where('location_id', 1)
+            ->update($request->except('_method', '_token'));
         Session::flash('message', error_layout('Location Info update successfuly!'));
         return redirect('/adminpanel/locations');
 

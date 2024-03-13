@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contact_info;
 use App\Currency;
 use App\Language;
+use App\Messenger;
 use App\Page_info;
 use App\Pages;
 use App\Site_info;
@@ -115,7 +116,8 @@ class AppServiceProvider extends ServiceProvider
             View::share('emailess', $emailess);
             View::share('pageKind', $pageKind);
             View::share('logo', $logo);
-
+            View::share('messengers', Messenger::where('lang_id',get_lang_id($request->segment(1)))->get());
+            View::share('guestbook', Contact_info::where('kind','guestbook')->where('lang_id',get_lang_id($request->segment(1)))->first());
         endif;
 
     }

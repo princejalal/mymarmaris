@@ -144,7 +144,7 @@
                             <li class="nav-item">
 
                                 <a class="nav-link" target="_blank"
-                                   href="https://vk.com/ekskursii.v.marmarise">{{ locale_words('GUESTBOOK') }}</a>
+                                   href="{{ optional($guestbook)->contact_value }}">{{ locale_words('GUESTBOOK') }}</a>
                             </li>
                             <li class="nav-item @if(request()->segment(2) == 'contact') active @endif">
                                 <a class="nav-link"

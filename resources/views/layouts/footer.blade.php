@@ -94,7 +94,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-4 text-center text-md-right">
+                    <div class="col-md-4 text-center text-md-right @if(check_is_mobile()) pb-5 @endif">
                         <p>Copyright {{ date('Y') }}
                             | {{ config('app.name') }}</p>
                     </div>
@@ -102,8 +102,17 @@
             </div>
         </div>
 </footer>
-<div class="loading">
-    <div class="loading-inside"></div>
+<div class="call-container">
+    <div class="row  no-gutters call-icons">
+        <a rel="nofollow" class="col tel" href="tel:{{ $siteInfo->phone }}"><i class="fa fa-phone"></i>
+            <p></p></a>
+        @foreach($messengers as $messenger)
+            <a class="col {{ strtolower($messenger->type->name) }}  d-sm-block"
+               href="{{ $messenger->type->link }}{{ $messenger->value }}"><i class="{{ $messenger->type->icon }}"></i>
+                <p></p>
+            </a>
+        @endforeach
+    </div>
 </div>
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script defer src="{{ asset('js/popper.js') }}"></script>
