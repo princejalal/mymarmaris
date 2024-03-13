@@ -20,11 +20,8 @@
                         </div>
                         <div class="col-8 sag">
                             <ul>
-                                @foreach($phones as $phone)
-                                    @php $lang = \App\Language::where('lang_id',$phone->lang_id)->first()  @endphp
-                                    <li dir="ltr">{{ $phone->contact_value }}
-                                    </li>
-                                @endforeach
+                                <li dir="ltr">{{ $phone->contact_value }}
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -45,7 +42,7 @@
                                 @if(isset($socialLink[$media->name]) && $media->name != 'telegram' && $media->name != 'whatsapp')
                                     <a target="_blank" href="{{ $socialLink[$media->name] }}{{ $media->contact_value }}"
                                        class="icon-button {{ $media->name }}"><i
-                                                class="{{ $media->icon }} fa-2x"></i><span></span></a>
+                                            class="{{ $media->icon }} fa-2x"></i><span></span></a>
                                 @endif
                             @endforeach
                         </div>

@@ -17,7 +17,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
 
-class AppServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
 
     protected $langId = [];
 
@@ -26,7 +27,8 @@ class AppServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
 
     }
 
@@ -35,7 +37,8 @@ class AppServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
 
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
@@ -44,38 +47,31 @@ class AppServiceProvider extends ServiceProvider {
 
             $request = $this->app->request;
 
-            $language = Language::where('lang_short_name', $request->lng)->first();
-
-            if (!$language):
-
-                App::setLocale('en');
-
-            else:
-
-                App::setLocale($request->lng);
-
-            endif;
-
-            $languages = Language::where('publish', 1)->get();
+            $languages = Language::where('publish', 1)
+                ->get();
             $currency = Currency::all();
-            $siteInfo = Site_info::where('id', 1)->first();
-            $acceptLang = [];
+            $siteInfo = Site_info::where('id', 1)
+                ->first();
 
-            foreach ($languages as $language):
-                $this->langId[$language->lang_short_name] = $language->lang_id;
-                $acceptLang[] = $language->lang_short_name;
-            endforeach;
+            $pageInfoEng = Page_info::where('page_id', 1)
+                ->where('lang_id', 1)
+                ->first();
 
-            $pageInfoEng = Page_info::where('page_id', 1)->where('lang_id', 1)->first();
+            $homeData = Page_info::where('page_id', 1)
+                ->where('lang_id', get_lang_id($request->segment(1)))
+                ->first();
 
-            $homeData = Page_info::where('page_id', 1)->where('lang_id', get_lang_id($request->segment(1)))->first();
+            (isset($homeData->scrolling_text)) ?
+                $scrollText = $homeData->scrolling_text :
+                $scrollText = '$pageInfoEng->scrolling_text';
 
-            (isset($homeData->scrolling_text)) ? $scrollText = $homeData->scrolling_text : $scrollText = '$pageInfoEng->scrolling_text';
+            $contactSocial = Contact_info::where('kind', 'socialMedia')
+                ->where('lang_id', get_lang_id($request->segment(1)))
+                ->get();
 
-            $contactSocial = Contact_info::where('kind', 'socialMedia')->where('lang_id',
-                get_lang_id($request->segment(1)))->get();
-
-            (check_is_mobile()) ? $logo = 'logo-mobile.png' : $logo = 'logo.png';
+            (check_is_mobile()) ?
+                $logo = 'logo-mobile.png' :
+                $logo = 'logo.png';
 
             $socialLink = [
                 'facebook'  => 'https://www.facebook.com/',
@@ -86,18 +82,23 @@ class AppServiceProvider extends ServiceProvider {
                 'whatsapp'  => 'https://web.whatsapp.com/',
                 'telegram'  => 'https://t.me/'
             ];
-            $phones = Contact_info::where('kind', 'phone')->get();
+            $phone = Contact_info::where('kind', 'phone')
+                ->where('lang_id',get_lang_id($request->segment(1)))
+                ->first();
 
-            $address = Contact_info::where('kind', 'address')->get();
+            $address = Contact_info::where('kind', 'address')
+                ->get();
 
-            $emailess = Contact_info::where('kind', 'email')->get();
+            $emailess = Contact_info::where('kind', 'email')
+                ->get();
 
-            $pageKind = ['general'    => 'general',
-                         'child'      => 'child',
-                         'history'    => 'history',
-                         'district'   => 'district',
-                         'recreation' => 'recreation',
-                         'sea'        => 'sea'
+            $pageKind = [
+                'general'    => 'general',
+                'child'      => 'child',
+                'history'    => 'history',
+                'district'   => 'district',
+                'recreation' => 'recreation',
+                'sea'        => 'sea'
             ];
 
             View::share('languages', $languages);
@@ -109,7 +110,7 @@ class AppServiceProvider extends ServiceProvider {
             View::share('scrollText', $scrollText);
             View::share('contactSocial', $contactSocial);
             View::share('socialLink', $socialLink);
-            View::share('phones', $phones);
+            View::share('phone', $phone);
             View::share('address', $address);
             View::share('emailess', $emailess);
             View::share('pageKind', $pageKind);

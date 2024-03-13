@@ -6,7 +6,7 @@
                 @if(isset($socialLink[$media->name]) && $media->name != 'telegram' && $media->name != 'whatsapp')
                     <a target="_blank" href="{{ $socialLink[$media->name] }}{{ $media->contact_value }}"
                        class="icon-button {{ $media->name }}"><i
-                                class="{{ $media->icon }} fa-2x"></i><span></span></a>
+                            class="{{ $media->icon }} fa-2x"></i><span></span></a>
                 @endif
             @endforeach
         </div>
@@ -69,14 +69,12 @@
                                 <i class="fa fa-location-arrow"></i><span>{{ locale_words('Address') }}: </span> {{ $ad->contact_value }}
                             </li>
                         @endforeach
-                        @foreach($phones as $ph)
-                            <li><i class="fa fa-phone"></i><span>{{ locale_words('Phone') }}: </span><span
-                                        dir="ltr">{{ $ph->contact_value }}</span>
-                            </li>
-                        @endforeach
+                        <li><i class="fa fa-phone"></i><span>{{ locale_words('Phone') }}: </span><span
+                                dir="ltr">{{ $phone->contact_value }}</span>
+                        </li>
                         @foreach($emailess as $em)
                             <li><i class="fa fa fa-envelope"></i><span>{{ locale_words('Email') }}: </span><span
-                                        dir="ltr">{{ $em->contact_value }}</span>
+                                    dir="ltr">{{ $em->contact_value }}</span>
                             </li>
                         @endforeach
                     </ul>
