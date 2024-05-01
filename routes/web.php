@@ -306,6 +306,15 @@ Route::prefix('adminpanel')->middleware('auth')->group(function () {
 
     Route::resource('messenger-type', 'adminpanel\Messenger\MessengerTypeController')->except('show', 'create', 'edit');
 
+    /*
+     * Language file editor
+     */
+    Route::get('lang_files','adminpanel\LangFileController@index')->name('files.index');
+
+    Route::get('lang_files/show/{lng}/{file?}','adminpanel\LangFileController@show')->name('files.show');
+
+    Route::put('lang_files/{key}/edit', 'adminpanel\LangFileController@update')->name('files.update');
+
 });
 
 
