@@ -20,3 +20,5 @@
 <b> {{  $reserve->phone }} </b><br>
 <b style="color: #1F8342"> {{  __('message.ReservationDate') }} : </b>
 <b>  {{ date('Y-m-d H:i:s') }} </b><br>
+<b style="color: #1F8342"> {{ __('message.YourEmail') }} : </b>
+{{ $reserve->email }}
